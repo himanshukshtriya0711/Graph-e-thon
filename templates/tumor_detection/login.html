@@ -1,0 +1,45 @@
+{% extends "tumor_detection/base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow border-0 rounded-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center my-2">Login</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required>
+                            <label for="id_username">Username</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+                            <label for="id_password">Password</label>
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        </div>
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger mt-3">
+                                Your username or password is incorrect. Please try again.
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="card-footer text-center py-3">
+                    <div class="small">
+                        Don't have an account? <a href="{% url 'register' %}" class="text-primary">Register now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,164 @@
+{% extends "tumor_detection/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2 dashboard-sidebar">
+            <div class="d-flex flex-column">
+                <div class="text-center mb-4 mt-3">
+                    <img src="https://ui-avatars.com/api/?name={{ user.first_name }}+{{ user.last_name }}&background=3498db&color=fff&size=100" class="rounded-circle shadow" alt="Profile Image">
+                    <h5 class="text-white mt-3">{{ user.first_name }} {{ user.last_name }}</h5>
+                    <p class="text-light">Patient</p>
+                </div>
+                
+                <a href="{% url 'dashboard' %}" class="sidebar-link">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{% url 'medical_status' %}" class="sidebar-link">
+                    <i class="fas fa-notes-medical"></i> Medical Status
+                </a>
+                <a href="{% url 'appointments' %}" class="sidebar-link">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+                <a href="{% url 'mri_scans' %}" class="sidebar-link active">
+                    <i class="fas fa-brain"></i> MRI Scans
+                </a>
+                <a href="{% url 'prescriptions' %}" class="sidebar-link">
+                    <i class="fas fa-prescription"></i> Prescriptions
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9 col-xl-10 dashboard-content">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-4">MRI Scans</h2>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Upload MRI Scan</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.image.id_for_label }}" class="form-label">MRI Scan Image</label>
+                                    {{ form.image }}
+                                    <div class="text-danger small">
+                                        {{ form.image.errors }}
+                                    </div>
+                                    <div class="form-text">
+                                        Upload clear MRI scan images for better analysis. Supported formats: JPEG, PNG, DICOM.
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Upload & Analyze</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">MRI Scan Guidelines</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-info-circle text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Image Quality:</strong> Ensure the MRI scan is clear and of high resolution.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-info-circle text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <strong>File Format:</strong> DICOM format is preferred, but JPEG and PNG are also accepted.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-info-circle text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Scan Type:</strong> T1, T2, FLAIR sequences provide better results for tumor detection.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-info-circle text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Multiple Views:</strong> Upload different views (axial, sagittal, coronal) for comprehensive analysis.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">About AI Analysis</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Our advanced AI system uses deep learning algorithms to analyze MRI scans and detect potential brain tumors with high accuracy.</p>
+                            
+                            <h6 class="mt-4 mb-3">How it works:</h6>
+                            <ol>
+                                <li class="mb-2">The AI segments the brain tissue into different regions.</li>
+                                <li class="mb-2">It analyzes tissue characteristics such as density, contrast enhancement, and texture.</li>
+                                <li class="mb-2">The system detects abnormalities that may indicate the presence of a tumor.</li>
+                                <li class="mb-2">Results are highlighted on the image for easy visualization and further assessment.</li>
+                            </ol>
+                            
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-lightbulb me-2"></i> The AI analysis is designed to assist healthcare professionals and should not replace professional medical advice.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">Previous MRI Scans</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if scans %}
+                                <div class="row">
+                                    {% for scan in scans %}
+                                        <div class="col-md-6 col-lg-4 mb-4">
+                                            <div class="card h-100">
+                                                <img src="{{ scan.image.url }}" class="card-img-top" alt="MRI Scan">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Scan #{{ forloop.counter }}</h5>
+                                                    <p class="card-text"><small class="text-muted">Uploaded on {{ scan.uploaded_at|date:"F d, Y" }}</small></p>
+                                                    
+                                                    <h6 class="mt-3">Analysis Result:</h6>
+                                                    <p>{{ scan.result }}</p>
+                                                    
+                                                    <a href="{{ scan.image.url }}" class="btn btn-outline-primary btn-sm" target="_blank">View Full Size</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-center">No MRI scans uploaded yet. Please upload an MRI scan for analysis.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

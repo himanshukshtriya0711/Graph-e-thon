@@ -1,0 +1,247 @@
+{% extends "tumor_detection/base.html" %}
+
+{% block extra_css %}
+<style>
+    .stats-card {
+        border-radius: 15px;
+        background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+        box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s;
+    }
+    
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stats-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+    
+    .stats-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+    
+    .stats-label {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2 dashboard-sidebar">
+            <div class="d-flex flex-column">
+                <div class="text-center mb-4 mt-3">
+                    <img src="https://ui-avatars.com/api/?name={{ user.first_name }}+{{ user.last_name }}&background=3498db&color=fff&size=100" class="rounded-circle shadow" alt="Profile Image">
+                    <h5 class="text-white mt-3">{{ user.first_name }} {{ user.last_name }}</h5>
+                    <p class="text-light">Patient</p>
+                </div>
+                
+                <a href="{% url 'dashboard' %}" class="sidebar-link active">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{% url 'medical_status' %}" class="sidebar-link">
+                    <i class="fas fa-notes-medical"></i> Medical Status
+                </a>
+                <a href="{% url 'appointments' %}" class="sidebar-link">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+                <a href="{% url 'mri_scans' %}" class="sidebar-link">
+                    <i class="fas fa-brain"></i> MRI Scans
+                </a>
+                <a href="{% url 'prescriptions' %}" class="sidebar-link">
+                    <i class="fas fa-prescription"></i> Prescriptions
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9 col-xl-10 dashboard-content">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+                </div>
+            </div>
+            
+            <!-- 3D Brain Model -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-0">
+                            <div class="brain-3d-container" id="brain-model">
+                                <!-- 3D Brain Model will be rendered here using Three.js -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-brain stats-icon"></i>
+                        <div class="stats-number">3</div>
+                        <div class="stats-label">MRI Scans</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-calendar-check stats-icon"></i>
+                        <div class="stats-number">2</div>
+                        <div class="stats-label">Appointments</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-prescription stats-icon"></i>
+                        <div class="stats-number">5</div>
+                        <div class="stats-label">Prescriptions</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-notes-medical stats-icon"></i>
+                        <div class="stats-number">1</div>
+                        <div class="stats-label">Medical Updates</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Info -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">Your Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                                    <p><strong>Email:</strong> {{ user.email }}</p>
+                                    <p><strong>Username:</strong> {{ user.username }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if user_profile %}
+                                    <p><strong>Address:</strong> {{ user_profile.address }}</p>
+                                    <p><strong>Phone Number:</strong> {{ user_profile.phone_number }}</p>
+                                    <p><strong>State:</strong> {{ user_profile.state }}, {{ user_profile.pincode }}</p>
+                                    {% else %}
+                                    <p>No additional profile information found.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize Three.js scene for brain model
+    const container = document.getElementById('brain-model');
+    
+    // Set up scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x333333);
+    
+    // Set up camera
+    const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+    camera.position.z = 4;
+    
+    // Set up renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.offsetWidth, container.offsetHeight);
+    container.appendChild(renderer.domElement);
+    
+    // Add ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    
+    // Add directional light
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+    
+    // Create a simple brain model (sphere with materials to look like a brain)
+    const geometry = new THREE.SphereGeometry(2, 32, 32);
+    const material = new THREE.MeshPhongMaterial({
+        color: 0xe8a0a0,
+        shininess: 10,
+        wireframe: false,
+        flatShading: true
+    });
+    
+    const brain = new THREE.Mesh(geometry, material);
+    
+    // Add noise to the vertices to make it look more like a brain
+    const positionAttribute = geometry.getAttribute('position');
+    const vertex = new THREE.Vector3();
+    
+    for (let i = 0; i < positionAttribute.count; i++) {
+        vertex.fromBufferAttribute(positionAttribute, i);
+        
+        // Add some noise to the vertex
+        vertex.x += (Math.random() - 0.5) * 0.2;
+        vertex.y += (Math.random() - 0.5) * 0.2;
+        vertex.z += (Math.random() - 0.5) * 0.2;
+        
+        // Set the new position
+        positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    
+    // Update the geometry
+    positionAttribute.needsUpdate = true;
+    geometry.computeVertexNormals();
+    
+    scene.add(brain);
+    
+    // Add a highlight for tumor (simple red sphere)
+    const tumorGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const tumorMaterial = new THREE.MeshPhongMaterial({
+        color: 0xff0000,
+        shininess: 30,
+        transparent: true,
+        opacity: 0.7
+    });
+    
+    const tumor = new THREE.Mesh(tumorGeometry, tumorMaterial);
+    tumor.position.set(1.5, 0.8, 0.5);
+    scene.add(tumor);
+    
+    // Animation function
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Rotate the brain
+        brain.rotation.y += 0.005;
+        tumor.rotation.y += 0.005;
+        
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        camera.aspect = container.offsetWidth / container.offsetHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+    });
+</script>
+{% endblock %} 

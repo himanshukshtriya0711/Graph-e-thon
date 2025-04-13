@@ -1,0 +1,166 @@
+{% extends "tumor_detection/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2 dashboard-sidebar">
+            <div class="d-flex flex-column">
+                <div class="text-center mb-4 mt-3">
+                    <img src="https://ui-avatars.com/api/?name={{ user.first_name }}+{{ user.last_name }}&background=3498db&color=fff&size=100" class="rounded-circle shadow" alt="Profile Image">
+                    <h5 class="text-white mt-3">{{ user.first_name }} {{ user.last_name }}</h5>
+                    <p class="text-light">Patient</p>
+                </div>
+                
+                <a href="{% url 'dashboard' %}" class="sidebar-link">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{% url 'medical_status' %}" class="sidebar-link active">
+                    <i class="fas fa-notes-medical"></i> Medical Status
+                </a>
+                <a href="{% url 'appointments' %}" class="sidebar-link">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+                <a href="{% url 'mri_scans' %}" class="sidebar-link">
+                    <i class="fas fa-brain"></i> MRI Scans
+                </a>
+                <a href="{% url 'prescriptions' %}" class="sidebar-link">
+                    <i class="fas fa-prescription"></i> Prescriptions
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9 col-xl-10 dashboard-content">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-4">Medical Status</h2>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Update Medical Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.symptoms.id_for_label }}" class="form-label">Current Symptoms</label>
+                                    {{ form.symptoms }}
+                                    <div class="text-danger small">
+                                        {{ form.symptoms.errors }}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.current_medication.id_for_label }}" class="form-label">Current Medications</label>
+                                    {{ form.current_medication }}
+                                    <div class="text-danger small">
+                                        {{ form.current_medication.errors }}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.medical_history.id_for_label }}" class="form-label">Medical History</label>
+                                    {{ form.medical_history }}
+                                    <div class="text-danger small">
+                                        {{ form.medical_history.errors }}
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Save Medical Status</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">Health Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Regular Check-ups:</strong> Schedule regular check-ups with your neurologist.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Stay Hydrated:</strong> Drink plenty of water throughout the day.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Balanced Diet:</strong> Eat a diet rich in fruits, vegetables, and whole grains.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Physical Activity:</strong> Engage in regular, moderate physical activity.
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                    <div>
+                                        <strong>Adequate Rest:</strong> Ensure you get 7-8 hours of sleep each night.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">Medical Status History</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if medical_statuses %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Symptoms</th>
+                                                <th>Medications</th>
+                                                <th>Medical History</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for status in medical_statuses %}
+                                                <tr>
+                                                    <td>{{ status.date }}</td>
+                                                    <td>{{ status.symptoms }}</td>
+                                                    <td>{{ status.current_medication }}</td>
+                                                    <td>{{ status.medical_history }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-center">No medical status records found. Please update your medical status.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

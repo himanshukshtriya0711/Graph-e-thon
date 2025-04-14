@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,109 +8,589 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
+        :root[data-theme="light"] {
+            --primary-color: #7a64ff;
+            --secondary-color: #a25dff;
+            --accent-color: #ff64c8;
+            --dark-color: #120e29;
+            --light-color: #ffffff;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #6c757d;
+            --border-color: rgba(0,0,0,0.08);
+            --shadow-color: rgba(0,0,0,0.1);
+            --navbar-bg: rgba(18, 14, 41, 0.95);
+            --footer-bg: var(--dark-color);
+            --hero-gradient: linear-gradient(135deg, #3b2c94, #5939b3, #8253da);
+            --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+        }
+        
+        :root[data-theme="dark"] {
+            --primary-color: #8e7bff;
+            --secondary-color: #b475ff;
+            --accent-color: #ff7ed3;
+            --dark-color: #0a0718;
+            --light-color: #ffffff;
+            --bg-color: #13101f;
+            --card-bg: #1e1a33;
+            --text-color: #ffffff;
+            --text-muted: #c0c0c0;
+            --border-color: rgba(255,255,255,0.15);
+            --shadow-color: rgba(0,0,0,0.5);
+            --navbar-bg: rgba(10, 7, 24, 0.95);
+            --footer-bg: rgba(10, 7, 24, 0.98);
+            --hero-gradient: linear-gradient(135deg, #210f52, #3b1e7f, #5028b4);
+            --card-gradient: linear-gradient(135deg, rgba(40,35,70,0.9), rgba(40,35,70,0.6));
+            --btn-text: #ffffff;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
         
         .navbar {
-            background-color: var(--dark-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: var(--navbar-bg);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .navbar-brand {
             font-weight: 700;
             color: var(--light-color) !important;
+            text-shadow: 0 0 10px rgba(122, 100, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(122, 100, 255, 0.5);
         }
         
         .nav-link {
             color: rgba(255,255,255,0.8) !important;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            margin: 0 5px;
+            padding: 8px 15px !important;
+            border-radius: 8px;
         }
         
         .nav-link:hover {
-            color: var(--secondary-color) !important;
+            color: var(--light-color) !important;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-link.active {
+            background: rgba(122, 100, 255, 0.2);
+            color: var(--primary-color) !important;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
         
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            box-shadow: 0 4px 15px rgba(122, 100, 255, 0.3);
         }
         
-        .btn-success {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(122, 100, 255, 0.5);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: var(--btn-text);
         }
         
         .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            border-radius: 16px;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            height: 100%;
         }
         
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
         }
         
         .feature-icon {
             font-size: 2.5rem;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px rgba(122, 100, 255, 0.5));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .hero-section {
-            background: linear-gradient(to right, var(--dark-color), var(--primary-color));
+            background: var(--hero-gradient);
             color: white;
-            padding: 100px 0;
-            border-radius: 0 0 30% 30%;
+            padding: 120px 0 160px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: var(--bg-color);
+            border-radius: 50% 50% 0 0;
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,.075)' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            z-index: 1;
+            opacity: 0.85;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
         }
         
         .dashboard-sidebar {
-            background-color: var(--dark-color);
-            min-height: calc(100vh - 56px);
-            padding: 20px 0;
+            background-color: var(--card-bg);
+            min-height: calc(100vh - 70px);
+            padding: 25px 0;
+            box-shadow: 0 0 20px var(--shadow-color);
+            border-radius: 0 16px 16px 0;
+            border-right: 1px solid var(--border-color);
         }
         
         .sidebar-link {
-            color: var(--light-color);
-            padding: 10px 20px;
+            color: var(--text-color);
+            padding: 12px 20px;
             display: block;
-            border-radius: 5px;
-            margin: 5px 10px;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            margin: 8px 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .sidebar-link:hover::before, 
+        .sidebar-link.active::before {
+            opacity: 1;
         }
         
         .sidebar-link:hover, .sidebar-link.active {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(122, 100, 255, 0.1);
             text-decoration: none;
-            color: var(--secondary-color);
+            color: var(--primary-color);
+            transform: translateX(5px);
         }
         
         .sidebar-link i {
             margin-right: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar-link:hover i {
+            transform: scale(1.2);
         }
         
         .dashboard-content {
-            padding: 20px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .stats-card {
+            padding: 25px;
+            text-align: center;
+            background: var(--card-gradient);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        
+        .stats-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stats-card .label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(122, 100, 255, 0.4);
+            z-index: 1050;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .alert {
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: none;
+        }
+        
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--light-color);
+            box-shadow: 0 -2px 20px var(--shadow-color);
+            padding: 30px 0;
+            position: relative;
+            z-index: 1;
         }
         
         .brain-3d-container {
             height: 300px;
-            background-color: #333;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            margin-bottom: 25px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        
+        /* Glass morphism effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        /* 3D Button effect */
+        .btn-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.3s;
+        }
+        
+        .btn-3d:hover {
+            transform: perspective(1000px) translateZ(10px);
+        }
+        
+        /* Feature cards */
+        .feature-card {
+            text-align: center;
+            padding: 40px 25px;
+        }
+        
+        .feature-card .icon-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(122, 100, 255, 0.1), rgba(162, 93, 255, 0.1));
+            border-radius: 20px;
+        }
+        
+        /* Medical scan display */
+        .scan-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        
+        .scan-image {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s;
+        }
+        
+        .scan-container:hover .scan-image {
+            transform: scale(1.05);
+        }
+        
+        .scan-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3), transparent);
+            padding: 20px;
+            color: white;
+        }
+        
+        /* Animated gradient background */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section {
+                padding: 80px 0 120px;
+            }
+            
+            .hero-image {
+                position: relative;
+                right: 0;
+                top: 0;
+                transform: none;
+                width: 80%;
+                margin: 30px auto 0;
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-content {
+                padding: 0 20px;
+            }
+            
+            .d-flex.justify-content-center.gap-3 {
+                gap: 10px !important;
+            }
+            
+            .d-flex.justify-content-center.gap-3 .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .theme-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            footer {
+                padding-bottom: 70px; /* Make room for the theme toggle on small devices */
+            }
+            
+            /* Fix overlapping elements in mobile view */
+            .d-flex.justify-content-center.gap-3 {
+                flex-wrap: wrap;
+            }
+        }
+        
+        /* Fix for section button visibility */
+        .btn-light {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border-color: var(--light-color);
+        }
+        
+        .btn-light:hover {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Fix for dark mode text visibility */
+        [data-theme="dark"] .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        [data-theme="dark"] .card {
+            color: var(--text-color);
+        }
+        
+        [data-theme="dark"] .section-title {
+            color: var(--text-color);
+        }
+        
+        [data-theme="dark"] .hero-title, 
+        [data-theme="dark"] .section-title.text-center.mx-auto {
+            color: var(--text-color);
+        }
+        
+        [data-theme="dark"] .feature-card {
+            color: var(--text-color);
+        }
+        
+        /* Fix for tables in dark mode */
+        [data-theme="dark"] .table {
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        
+        [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        [data-theme="dark"] .table th {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        
+        /* Fix for form controls in dark mode */
+        [data-theme="dark"] select.form-select {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        
+        [data-theme="dark"] textarea.form-control {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -119,7 +599,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-brain me-2"></i>Brain Tumor Detection
+                <div class="brand-icon">
+                    <i class="fas fa-hospital-user"></i>
+                </div>
+                MedScan AI
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -127,21 +610,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            <form action="{% url 'logout' %}" method="post" id="logout-form" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link border-0 bg-transparent">Logout</button>
+                            </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">Register</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -149,29 +635,77 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
         
         {% block content %}{% endblock %}
     </div>
 
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <p>&copy; 2025 Brain Tumor Detection System. All Rights Reserved.</p>
+    <footer class="py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">MedScan AI</h5>
+                    <p class="text-muted">Advanced medical imaging analysis powered by artificial intelligence.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2025 MedScan AI. All Rights Reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
+    
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Three.js for 3D Brain Model -->
+    <!-- Three.js for 3D Models -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            const icon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            html.setAttribute('data-theme', savedTheme);
+            updateIcon(savedTheme);
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+            });
+            
+            function updateIcon(theme) {
+                if (theme === 'light') {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                } else {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            }
+        });
+    </script>
     
     {% block extra_js %}{% endblock %}
 </body>

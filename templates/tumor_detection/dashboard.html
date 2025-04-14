@@ -3,34 +3,115 @@
 {% block extra_css %}
 <style>
     .stats-card {
-        border-radius: 15px;
-        background: linear-gradient(145deg, #f8f9fa, #e9ecef);
-        box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+        border-radius: 16px;
+        background: var(--card-gradient);
+        box-shadow: 0 10px 30px var(--shadow-color);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        transition: transform 0.3s;
+        transition: all 0.3s;
+        height: 100%;
     }
     
     .stats-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 15px 35px var(--shadow-color);
     }
     
     .stats-icon {
         font-size: 2.5rem;
         margin-bottom: 1rem;
-        color: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     
     .stats-number {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        color: var(--dark-color);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     
     .stats-label {
-        color: #6c757d;
+        color: var(--text-muted);
         font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    .brain-model-card {
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px var(--shadow-color);
+        background-color: #000;
+        height: 300px;
+    }
+    
+    .brain-model-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        transform-style: preserve-3d;
+        animation: rotateModel 20s infinite linear;
+        filter: drop-shadow(0 0 10px rgba(122, 100, 255, 0.8));
+    }
+    
+    @keyframes rotateModel {
+        0% {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        100% {
+            transform: perspective(1000px) rotateY(360deg);
+        }
+    }
+    
+    .brain-model-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.5), transparent);
+        padding: 20px;
+        color: white;
+        z-index: 1;
+    }
+    
+    .brain-model-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .brain-model-text {
+        opacity: 0.9;
+    }
+    
+    .glow-effect {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%;
+        height: 70%;
+        background: radial-gradient(circle, rgba(122, 100, 255, 0.2) 0%, rgba(122, 100, 255, 0) 70%);
+        border-radius: 50%;
+        z-index: 0;
+        animation: pulse 3s infinite alternate;
+    }
+    
+    @keyframes pulse {
+        0% {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+        100% {
+            opacity: 0.7;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
     }
 </style>
 {% endblock %}
@@ -42,7 +123,7 @@
         <div class="col-lg-3 col-xl-2 dashboard-sidebar">
             <div class="d-flex flex-column">
                 <div class="text-center mb-4 mt-3">
-                    <img src="https://ui-avatars.com/api/?name={{ user.first_name }}+{{ user.last_name }}&background=3498db&color=fff&size=100" class="rounded-circle shadow" alt="Profile Image">
+                    <img src="https://ui-avatars.com/api/?name={{ user.first_name }}+{{ user.last_name }}&background=7a64ff&color=fff&size=100" class="rounded-circle shadow" alt="Profile Image">
                     <h5 class="text-white mt-3">{{ user.first_name }} {{ user.last_name }}</h5>
                     <p class="text-light">Patient</p>
                 </div>
@@ -69,18 +150,19 @@
         <div class="col-lg-9 col-xl-10 dashboard-content">
             <div class="row mb-4">
                 <div class="col-12">
-                    <h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+                    <h2 class="section-title">Welcome, {{ user.first_name }}</h2>
                 </div>
             </div>
             
-            <!-- 3D Brain Model -->
+            <!-- Brain Image -->
             <div class="row mb-4">
                 <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body p-0">
-                            <div class="brain-3d-container" id="brain-model">
-                                <!-- 3D Brain Model will be rendered here using Three.js -->
-                            </div>
+                    <div class="brain-model-card">
+                        <div class="glow-effect"></div>
+                        <img src="https://i.pinimg.com/474x/69/2f/65/692f65d21d6e2503ed10334718f1d0d7.jpg" class="brain-model-image" alt="Neural Network Brain Visualization">
+                        <div class="brain-model-overlay">
+                            <h3 class="brain-model-title">Advanced Neural Analysis</h3>
+                            <p class="brain-model-text">Our AI-powered system processes your MRI scans using state-of-the-art neural networks for accurate detection.</p>
                         </div>
                     </div>
                 </div>
@@ -88,28 +170,28 @@
             
             <!-- Stats -->
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stats-card text-center">
                         <i class="fas fa-brain stats-icon"></i>
                         <div class="stats-number">3</div>
                         <div class="stats-label">MRI Scans</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stats-card text-center">
                         <i class="fas fa-calendar-check stats-icon"></i>
                         <div class="stats-number">2</div>
                         <div class="stats-label">Appointments</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stats-card text-center">
                         <i class="fas fa-prescription stats-icon"></i>
                         <div class="stats-number">5</div>
                         <div class="stats-label">Prescriptions</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stats-card text-center">
                         <i class="fas fa-notes-medical stats-icon"></i>
                         <div class="stats-number">1</div>
@@ -118,28 +200,39 @@
                 </div>
             </div>
             
-            <!-- User Info -->
-            <div class="row mt-4">
+            <!-- Recent Activity -->
+            <div class="row">
                 <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-light">
-                            <h5 class="card-title mb-0">Your Information</h5>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Recent Activity</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                                    <p><strong>Email:</strong> {{ user.email }}</p>
-                                    <p><strong>Username:</strong> {{ user.username }}</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-container me-3" style="background: rgba(122, 100, 255, 0.1); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-calendar-check" style="color: var(--primary-color);"></i>
                                 </div>
-                                <div class="col-md-6">
-                                    {% if user_profile %}
-                                    <p><strong>Address:</strong> {{ user_profile.address }}</p>
-                                    <p><strong>Phone Number:</strong> {{ user_profile.phone_number }}</p>
-                                    <p><strong>State:</strong> {{ user_profile.state }}, {{ user_profile.pincode }}</p>
-                                    {% else %}
-                                    <p>No additional profile information found.</p>
-                                    {% endif %}
+                                <div>
+                                    <h6 class="mb-0">Appointment scheduled with Dr. Johnson</h6>
+                                    <small class="text-muted">Today, 10:30 AM</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-container me-3" style="background: rgba(122, 100, 255, 0.1); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-brain" style="color: var(--primary-color);"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">MRI scan analysis completed</h6>
+                                    <small class="text-muted">Yesterday, 3:45 PM</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="icon-container me-3" style="background: rgba(122, 100, 255, 0.1); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-prescription" style="color: var(--primary-color);"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">New prescription added</h6>
+                                    <small class="text-muted">April 12, 2:15 PM</small>
                                 </div>
                             </div>
                         </div>
@@ -153,95 +246,22 @@
 
 {% block extra_js %}
 <script>
-    // Initialize Three.js scene for brain model
-    const container = document.getElementById('brain-model');
-    
-    // Set up scene
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x333333);
-    
-    // Set up camera
-    const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-    camera.position.z = 4;
-    
-    // Set up renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
-    container.appendChild(renderer.domElement);
-    
-    // Add ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    
-    // Add directional light
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(1, 1, 1);
-    scene.add(directionalLight);
-    
-    // Create a simple brain model (sphere with materials to look like a brain)
-    const geometry = new THREE.SphereGeometry(2, 32, 32);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xe8a0a0,
-        shininess: 10,
-        wireframe: false,
-        flatShading: true
-    });
-    
-    const brain = new THREE.Mesh(geometry, material);
-    
-    // Add noise to the vertices to make it look more like a brain
-    const positionAttribute = geometry.getAttribute('position');
-    const vertex = new THREE.Vector3();
-    
-    for (let i = 0; i < positionAttribute.count; i++) {
-        vertex.fromBufferAttribute(positionAttribute, i);
+    // Enhanced rotation effect with mouse interaction
+    document.addEventListener('DOMContentLoaded', function() {
+        const brainImage = document.querySelector('.brain-model-image');
+        let rotationSpeed = 20; // Default rotation speed
         
-        // Add some noise to the vertex
-        vertex.x += (Math.random() - 0.5) * 0.2;
-        vertex.y += (Math.random() - 0.5) * 0.2;
-        vertex.z += (Math.random() - 0.5) * 0.2;
-        
-        // Set the new position
-        positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
-    }
-    
-    // Update the geometry
-    positionAttribute.needsUpdate = true;
-    geometry.computeVertexNormals();
-    
-    scene.add(brain);
-    
-    // Add a highlight for tumor (simple red sphere)
-    const tumorGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const tumorMaterial = new THREE.MeshPhongMaterial({
-        color: 0xff0000,
-        shininess: 30,
-        transparent: true,
-        opacity: 0.7
-    });
-    
-    const tumor = new THREE.Mesh(tumorGeometry, tumorMaterial);
-    tumor.position.set(1.5, 0.8, 0.5);
-    scene.add(tumor);
-    
-    // Animation function
-    function animate() {
-        requestAnimationFrame(animate);
-        
-        // Rotate the brain
-        brain.rotation.y += 0.005;
-        tumor.rotation.y += 0.005;
-        
-        renderer.render(scene, camera);
-    }
-    
-    animate();
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        camera.aspect = container.offsetWidth / container.offsetHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        // Add mousemove event to change rotation based on cursor position
+        document.addEventListener('mousemove', function(e) {
+            if (!brainImage) return;
+            
+            // Get mouse position relative to viewport
+            const mouseX = e.clientX / window.innerWidth;
+            
+            // Adjust animation speed based on mouse position
+            const newSpeed = 10 + (mouseX * 30); // Speed between 10s and 40s
+            brainImage.style.animationDuration = newSpeed + 's';
+        });
     });
 </script>
 {% endblock %} 

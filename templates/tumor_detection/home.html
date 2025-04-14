@@ -2,47 +2,98 @@
 
 {% block content %}
 <section class="hero-section">
-    <div class="container text-center">
-        <h1 class="display-4 fw-bold mb-4">Early Detection of Brain Tumors Using AI</h1>
-        <p class="lead mb-5">Our advanced AI system helps detect brain tumors at an early stage, improving treatment outcomes and saving lives.</p>
-        <a href="{% url 'get_started' %}" class="btn btn-light btn-lg px-5 py-3">Get Started</a>
+    <div class="hero-content">
+        <h1 class="hero-title">Advanced MRI Analysis<br>One Scan at a Time</h1>
+        <p class="hero-subtitle">Our AI-powered platform detects brain abnormalities with precision, helping physicians make faster, more accurate diagnoses.</p>
+        <a href="{% url 'get_started' %}" class="btn btn-light btn-lg px-5 py-3 btn-3d">Get Started</a>
     </div>
+    <img src="https://i.imgur.com/JHWjdsR.png" alt="3D Brain Scan Visualization" class="hero-image d-none d-lg-block">
 </section>
 
 <section class="py-5">
     <div class="container">
-        <div class="row text-center mb-5">
-            <div class="col-12">
-                <h2 class="display-5 fw-bold">How It Works</h2>
-                <p class="lead">Our system uses cutting-edge artificial intelligence to analyze MRI scans and detect potential tumors.</p>
-            </div>
+        <div class="text-center mb-5">
+            <h2 class="section-title text-center mx-auto">Everything You Need</h2>
+            <p class="lead text-muted">Our platform streamlines the entire diagnostic workflow with powerful tools designed for healthcare professionals.</p>
         </div>
         
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 p-4 text-center">
-                    <div class="card-body">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="icon-container">
                         <i class="fas fa-upload feature-icon"></i>
-                        <h3 class="h4 mb-3">Upload MRI Scan</h3>
-                        <p>Simply upload your MRI scan through our secure platform.</p>
                     </div>
+                    <h3 class="card-title">Upload & Analyze</h3>
+                    <p>Securely upload MRI scans and get AI-powered analysis results within minutes.</p>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 p-4 text-center">
-                    <div class="card-body">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="icon-container">
                         <i class="fas fa-brain feature-icon"></i>
-                        <h3 class="h4 mb-3">AI Analysis</h3>
-                        <p>Our AI system analyzes the scan to detect potential tumors with high accuracy.</p>
                     </div>
+                    <h3 class="card-title">Smart Detection</h3>
+                    <p>Our deep learning algorithms identify abnormalities with accuracy that rivals expert radiologists.</p>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 p-4 text-center">
-                    <div class="card-body">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="icon-container">
                         <i class="fas fa-file-medical feature-icon"></i>
-                        <h3 class="h4 mb-3">Get Results</h3>
-                        <p>Receive detailed results that can be shared with your healthcare provider.</p>
+                    </div>
+                    <h3 class="card-title">Detailed Reports</h3>
+                    <p>Receive comprehensive reports with visualization and treatment suggestions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 my-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h2 class="section-title">Intuitive Interface</h2>
+                <p class="mb-4">Our platform is designed with healthcare professionals in mind, making complex analysis simple and accessible.</p>
+                
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-4" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(122, 100, 255, 0.1), rgba(162, 93, 255, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-shield-alt" style="font-size: 24px; color: var(--primary-color);"></i>
+                    </div>
+                    <div>
+                        <h4 class="h5 mb-1">Secure Data Encryption</h4>
+                        <p class="mb-0 text-muted">All patient data is encrypted and protected with hospital-grade security.</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-4" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(122, 100, 255, 0.1), rgba(162, 93, 255, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-laptop-medical" style="font-size: 24px; color: var(--primary-color);"></i>
+                    </div>
+                    <div>
+                        <h4 class="h5 mb-1">Multi-device Access</h4>
+                        <p class="mb-0 text-muted">Access your patient data from any device, anywhere, anytime.</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-4" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(122, 100, 255, 0.1), rgba(162, 93, 255, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chart-line" style="font-size: 24px; color: var(--primary-color);"></i>
+                    </div>
+                    <div>
+                        <h4 class="h5 mb-1">Comprehensive Analytics</h4>
+                        <p class="mb-0 text-muted">Track patient progress and treatment effectiveness over time.</p>
+                    </div>
+                </div>
+                
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">Join Now</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="scan-container">
+                    <img src="https://i.imgur.com/pV0XhTF.jpg" alt="MedScan AI Dashboard" class="img-fluid scan-image">
+                    <div class="scan-overlay">
+                        <h4 class="mb-1">Powerful Dashboard</h4>
+                        <p class="mb-0 small">Manage patients, scans, and reports all in one place</p>
                     </div>
                 </div>
             </div>
@@ -50,23 +101,55 @@
     </div>
 </section>
 
-<section class="py-5 bg-light">
+<section class="py-5" style="background: var(--card-bg);">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <h2 class="display-5 fw-bold mb-4">Why Choose Our System?</h2>
-                <ul class="list-unstyled">
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>High Accuracy:</strong> Our AI system has been trained on thousands of MRI scans.</li>
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Early Detection:</strong> Identify potential tumors at an early stage.</li>
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Fast Results:</strong> Get results within minutes, not days.</li>
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Secure Platform:</strong> Your medical data is encrypted and secure.</li>
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>User-Friendly:</strong> Easy to use interface for patients and doctors.</li>
-                </ul>
-                <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">Join Now</a>
+        <div class="text-center mb-5">
+            <h2 class="section-title text-center mx-auto">Trusted by Leading Institutions</h2>
+            <p class="text-muted">Join hundreds of healthcare providers who trust our platform for accurate diagnoses.</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-2">
+                <div class="text-center p-3">
+                    <i class="fas fa-hospital" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p class="mt-2 mb-0 small fw-medium">Metro Health</p>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <img src="https://img.freepik.com/free-photo/doctor-examining-brain-imaging-scan_23-2149333986.jpg" alt="Doctor examining brain scan" class="img-fluid rounded shadow">
+            <div class="col-6 col-md-2">
+                <div class="text-center p-3">
+                    <i class="fas fa-clinic-medical" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p class="mt-2 mb-0 small fw-medium">City Clinic</p>
+                </div>
             </div>
+            <div class="col-6 col-md-2">
+                <div class="text-center p-3">
+                    <i class="fas fa-flask" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p class="mt-2 mb-0 small fw-medium">Research Lab</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="text-center p-3">
+                    <i class="fas fa-university" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p class="mt-2 mb-0 small fw-medium">Med University</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="text-center p-3">
+                    <i class="fas fa-stethoscope" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p class="mt-2 mb-0 small fw-medium">Care Group</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 text-center">
+    <div class="container">
+        <h2 class="hero-title mb-4" style="font-size: 2.5rem;">Ready to transform your diagnostic workflow?</h2>
+        <p class="lead mb-5">Join thousands of healthcare professionals who are already using MedScan AI.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5">Get Started</a>
+            <a href="{% url 'get_started' %}" class="btn btn-outline-primary btn-lg px-5">Learn More</a>
         </div>
     </div>
 </section>
